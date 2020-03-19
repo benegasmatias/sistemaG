@@ -50,16 +50,25 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
         'httpOnly' => true
   
-        
+       
+
     ]));
+    Router::scope('/api', function (RouteBuilder $routes) {
+    
+        $routes->registerMiddleware('bodyParser', new \Cake\Http\Middleware\BodyParserMiddleware());
+        $routes->applyMiddleware('bodyParser');
+    
+    
+    });
+    
     $routes->setExtensions(['json']);
     $routes->resources('Questions');
     /**
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
      */
-    $routes->applyMiddleware('csrf');
-
+    // $routes->applyMiddleware('bodyParser');
+ $routes->applyMiddleware('bodyParser');
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file

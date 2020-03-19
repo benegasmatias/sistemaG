@@ -18,10 +18,10 @@ class QuestionsController extends AppController
      */
     public function index()
     {
-        $preguntas = $this->Questions->find('all');
+        $preguntas = $this->Questions->find('all')->contain(['Answers']);
         $this->set([
-            'preguntas' => $preguntas,
-            '_serialize' => ['preguntas']
+            'questions' => $preguntas,
+            '_serialize' => ['questions']
         ]);
     }
 
@@ -46,21 +46,23 @@ class QuestionsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+  
     public function add()
     {
         $this->request->allowMethod(['post', 'put']);
-        $recipe = $this->Recipes->newEntity($this->request->getData());
-        if ($this->Recipes->save($recipe)) {
+        $question = $this->Questions->newEntity($this->request->getData());
+        if ($this->Questions->save($question)) {
             $message = 'Saved';
         } else {
             $message = 'Error';
         }
         $this->set([
             'message' => $message,
-            'recipe' => $recipe,
-            '_serialize' => ['message', 'recipe']
+            'question' => $question,
+            '_serialize' => ['message', 'question']
         ]);
     }
+
 
     /**
      * Edit method

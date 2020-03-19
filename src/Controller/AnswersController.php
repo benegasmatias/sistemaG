@@ -18,7 +18,7 @@ class AnswersController extends AppController
      */
     public function index()
     {
-        $answers = $this->Answers->find('all')->contain(['Questions']);
+        $answers = $this->Answers->find('all')->contain(['Questions'])->limit(100);
         $this->set(['answers'=>$answers,
         '_serialize'=>['answers']
         ]);
